@@ -94,3 +94,83 @@ report.check_consistency(consistency_rules)
 Le colonne `*_long` (`home_goal_long`, `home_red_card`, `home_penalty_shootout_goal_long`, ecc.) sembrano campi testuali semi-strutturati (liste di eventi/giocatori con minutaggio), non valori atomici confrontabili con soglie numeriche o booleane. Su questi ha più senso, se proprio vuoi validarli, un controllo di formato via regex piuttosto che una lambda di validità semplice — altrimenti li lascerei fuori da questo controllo e li tratterei eventualmente in una fase di parsing/normalizzazione a parte.
 
 Vuoi che ti aiuti a scrivere anche le regole di `check_consistency` per Score/home_score/away_score, dato che è probabilmente il controllo più critico che ti manca?
+
+/-------------------------------------------------------------------/
+Il mio dataset in csv ha le seguenti colonne:
+home_team, away_team, home_score, home_xg, home_penalty, away_score, away_xg, away_penalty, home_manager, home_captain, away_manager, away_captain, Attendance, Venue, Referee, Officials, Round, Date, Score, Notes, Host, Year, home_goal, away_goal, home_goal_long, away_goal_long, home_own_goal, away_own_goal, home_penalty_goal, away_penalty_goal, home_penalty_miss_long, away_penalty_miss_long, home_penalty_shootout_goal_long, away_penalty_shootout_goal_long, home_penalty_shootout_miss_long, away_penalty_shootout_miss_long, home_red_card, away_red_card, home_yellow_red_card, away_yellow_red_card, home_yellow_card_long, away_yellow_card_long, home_substitute_in_long, away_substitute_in_long. 
+Ne ho misurato la qualità secondo gli standard ISO 25012 e ho ottenuto questi risultati:
+[{"Table":"match_fact","Dimension":"Completeness","Score":"1.0","Issues":"0","Status":"🟢","Details":"Missing per column: {}"},{"Table":"match_fact","Dimension":"Uniqueness","Score":"1.0","Issues":"0","Status":"🟢","Details":"Duplicate rows on ['home_team', 'away_team', 'Date']: 0"},{"Table":"match_fact","Dimension":"Validity","Score":"0.999","Issues":"1","Status":"🟢","Details":"home_score: 0 invalid | away_score: 0 invalid | Attendance: 0 invalid | home_xg: 0 invalid | away_xg: 0 invalid | home_penalty: 0 invalid | away_penalty: 0 invalid | Year: 0 invalid | Round: 0 invalid | Date: 0 invalid | Score: 1 invalid"},{"Table":"match_fact","Dimension":"Consistency","Score":"1.0","Issues":"0","Status":"🟢","Details":"rule_0: 0 violations | rule_1: 0 violations | rule_2: 0 violations | rule_3: 0 violations | rule_4: 0 violations | rule_5: 0 violations | rule_6: 0 violations | rule_7: 0 violations | rule_8: 0 violations | rule_9: 0 violations | rule_10: 0 violations | rule_11: 0 violations"},{"Table":"match_fact","Dimension":"Timeliness","Score":"1.0","Issues":"0","Status":"🟢","Details":"Future dates: 0 | Stale (>35405d): 0"}]
+L'accuracy è stata verificata a parte e ho ottenuto il massimo, in quanto i valori corrispondono a valori reali
+Scrivine un rapporto in un inglese semplice destinato a un pubblico non esperto (né tecnico né del dominio)
+ANSWER (WebInterface Claude, Sonnet 5 Medio):
+Ho scritto il rapporto in inglese semplice, pensato per un pubblico senza background tecnico o calcistico. Spiega ogni dimensione ISO 25012 con un'analogia comprensibile (tipo "check-up di salute dei dati"), riporta i risultati in modo chiaro e chiude con una tabella riassuntiva e un giudizio finale sulla qualità del dataset. 
+# Data Quality Report: World Cup Matches Dataset
+ 
+## What is this report about?
+ 
+This report explains how "good" or "reliable" the World Cup matches dataset is. The dataset contains information about football matches: which teams played, scores, managers, captains, cards, goals, penalties, and more.
+ 
+To check how good the data is, we used a well-known international standard called **ISO 25012**. Think of it like a health check-up for data — instead of checking blood pressure and heart rate, we check things like: Is anything missing? Are there duplicates? Are the values realistic? Is everything consistent? Is the data recent enough to matter?
+ 
+Below, we go through each of these checks in plain language, along with the results.
+ 
+## 1. Completeness — "Is anything missing?"
+ 
+**Score: 100% (perfect)**
+ 
+This checks whether any information is missing from the dataset — for example, a match with no listed score, or a game with no date. 
+ 
+The result is perfect: **nothing is missing**. Every match in the dataset has all its information filled in.
+ 
+## 2. Uniqueness — "Are there any duplicate matches?"
+ 
+**Score: 100% (perfect)**
+ 
+This checks whether the same match accidentally appears more than once in the dataset (for example, "Italy vs Brazil, June 5th" listed twice by mistake).
+ 
+The result is perfect: **no duplicate matches were found**. Each match appears exactly once, as it should.
+ 
+## 3. Validity — "Do the values make sense given the rules?"
+ 
+**Score: 99.9% (excellent, almost perfect)**
+ 
+This checks whether values follow the expected format or rules — for instance, a score should be a proper number, an attendance figure shouldn't be negative, and a date should be a real date.
+ 
+Out of everything checked, only **one single value** (in the "Score" column, which stores the score as text, like "2–1") did not follow the expected format. Everything else — final scores, expected goals (xG), penalties, attendance, year, round, and match dates — passed with zero issues.
+ 
+This is a very minor and isolated problem, not something that affects the reliability of the dataset as a whole.
+ 
+## 4. Consistency — "Do related pieces of information agree with each other?"
+ 
+**Score: 100% (perfect)**
+ 
+This checks whether different pieces of information about the same match logically match up. For example: if a player received a red card, does that logically fit with the match events? If a penalty was scored, is it reflected correctly in both the score and the penalty details?
+ 
+Twelve different consistency rules were tested, covering these kinds of relationships across the dataset, and **all of them passed with zero contradictions**.
+ 
+## 5. Timeliness — "Is the data current and not out of date?"
+ 
+**Score: 100% (perfect)**
+ 
+This checks two things: whether any match is incorrectly dated in the future (which would be impossible), and whether the data is too old to still be useful or "stale."
+ 
+The result is perfect: **no matches have impossible future dates, and none of the data is considered outdated** for the purposes of this analysis.
+ 
+## 6. Accuracy — "Does the data reflect what really happened?"
+ 
+**Score: 100% (perfect, verified separately)**
+ 
+Accuracy was checked separately from the automatic tests above, by comparing the data against real, confirmed match results. Every value checked **matched the real-world facts**, confirming the data reflects what actually happened on the pitch.
+ 
+## Overall Conclusion
+ 
+| Quality Check | What it means | Result |
+|---|---|---|
+| Completeness | Nothing missing | 🟢 Perfect |
+| Uniqueness | No duplicate matches | 🟢 Perfect |
+| Validity | Values follow the right format | 🟢 Excellent (1 minor issue) |
+| Consistency | Related facts agree with each other | 🟢 Perfect |
+| Timeliness | Data is current, no impossible dates | 🟢 Perfect |
+| Accuracy | Matches real-world results | 🟢 Perfect |
+ 
+**In simple terms: this is a very high-quality, trustworthy dataset.** Out of thousands of data points checked across all these different tests, only one very small formatting issue was found, in a single column, in a single row. Every match is complete, unique, logically consistent, up to date, and factually accurate. This dataset can be confidently used for analysis or reporting.
