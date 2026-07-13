@@ -263,10 +263,8 @@ def main():
                 edition_id = populate_editions(cur, df)
                 populate_edition_hosts(cur, df, edition_id, nation_id)
                 populate_matches_and_events(cur, df, edition_id, nation_id, manager_id)
-        print("Commit eseguito con successo.")
     except Exception:
         conn.rollback()
-        print("Errore durante il popolamento: rollback eseguito.", file=sys.stderr)
         raise
     finally:
         conn.close()
