@@ -6,7 +6,6 @@ Do this AFTER reconciled_database_schema.sql
 import argparse
 import ast
 import re
-import sys
 import unicodedata
 import pandas as pd
 import psycopg
