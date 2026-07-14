@@ -146,7 +146,6 @@ def populate_editions(cur, df):
             (year,),
         )
         edition_id[year] = cur.fetchone()[0]
-    print(f"[editions] inserite {len(edition_id)} righe")
     return edition_id
 
 def populate_edition_hosts(cur, df, edition_id, nation_id):
@@ -262,6 +261,7 @@ def main():
                 edition_id = populate_editions(cur, df)
                 populate_edition_hosts(cur, df, edition_id, nation_id)
                 populate_matches_and_events(cur, df, edition_id, nation_id, manager_id)
+                print("Data loaded in the reconciled database")
     except Exception:
         conn.rollback()
         raise
