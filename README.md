@@ -1,6 +1,6 @@
 # Data-Warehouse-Project
 
-This repo contains all the code utilized for the Data Warehouse Final Project for AI & CS Course in UniCal held in A.Y. 2025/26.
+This repo contains all the code utilized for the Data Warehouse Final Project for AI & CS - Data Science Course in UniCal held in A.Y. 2025/26.
 
 ## Structure
 
@@ -21,6 +21,12 @@ It's a text file containing the full prompts given to LLM and its complete answe
 Note that in order to work, there should be at root level also a .env file with the following structure:  
 POSTGRES_PASSWORD = ...  
 POSTGRES_PORT = ...
+
+### csvTableau
+This folder contains each table of the star schema exported in csv, in order to be read by Tableau Public.
+
+### Diagrams
+This folder contains all the diagrams realized for the report of the project with Draw.io.
 
 ## Workflow
 The workflow followed (and the one that I suggest to replicate the project) is:
