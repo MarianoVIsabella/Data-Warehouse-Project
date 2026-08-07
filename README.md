@@ -1,6 +1,6 @@
 # Data-Warehouse-Project
 
-This repo contains all the code utilized for the Data Warehouse Final Project for AI & CS - Data Science Course in UniCal held in A.Y. 2025/26.
+This repo contains all the code utilized for the Data Warehouse Final Project for AI & CS - Data Science Course in UniCal held by prof Terracina G. in A.Y. 2025/26.
 
 ## Structure
 
